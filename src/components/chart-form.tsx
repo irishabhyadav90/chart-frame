@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useSearchSuggestions from '@hooks/useSearchSuggestions';
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
@@ -46,6 +47,10 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
   });
 
   const selectedType = watch('type');
+  const dataSource = watch('data_source');
+
+  const { suggestions, isLoading } = useSearchSuggestions(dataSource, 300);
+  console.log('suggestions', suggestions, 'isLoading', isLoading);
 
   const onSubmit: SubmitHandler<ChartFormInputs> = (data) => {
     const newChart: ChartConfig = {
@@ -94,29 +99,37 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-600 mt-4">Data Source</label>
+        <label className="block text-sm font-medium text-gray-600 mt-4">
+          Data Source
+        </label>
         <input
-          {...register("data_source")}
+          {...register('data_source')}
           className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Search for data series (e.g., GDP)"
         />
-        {errors.data_source && <p className="text-sm text-red-500">{errors.data_source.message}</p>}
+        {errors.data_source && (
+          <p className="text-sm text-red-500">{errors.data_source.message}</p>
+        )}
       </div>
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div>
-            <label className="block text-sm font-medium text-gray-600">Y-Axis Name</label>
+            <label className="block text-sm font-medium text-gray-600">
+              Y-Axis Name
+            </label>
             <input
-              {...register("y_axis_name")}
+              {...register('y_axis_name')}
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter Y-axis name"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-600">Time Frequency</label>
+            <label className="block text-sm font-medium text-gray-600">
+              Time Frequency
+            </label>
             <select
-              {...register("frequency")}
+              {...register('frequency')}
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="monthly">Monthly</option>
@@ -129,20 +142,26 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div>
-            <label className="block text-sm font-medium text-gray-600">Line/Bar Color</label>
+            <label className="block text-sm font-medium text-gray-600">
+              Line/Bar Color
+            </label>
             <input
               type="color"
-              {...register("color")}
+              {...register('color')}
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
             />
-            {errors.color && <p className="text-sm text-red-500">{errors.color.message}</p>}
+            {errors.color && (
+              <p className="text-sm text-red-500">{errors.color.message}</p>
+            )}
           </div>
 
-          {selectedType === "line" && (
+          {selectedType === 'line' && (
             <div>
-              <label className="block text-sm font-medium text-gray-600">Line Style</label>
+              <label className="block text-sm font-medium text-gray-600">
+                Line Style
+              </label>
               <select
-                {...register("line_style")}
+                {...register('line_style')}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="solid">Solid</option>
@@ -152,11 +171,13 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
             </div>
           )}
 
-          {selectedType === "bar" && (
+          {selectedType === 'bar' && (
             <div>
-              <label className="block text-sm font-medium text-gray-600">Bar Style</label>
+              <label className="block text-sm font-medium text-gray-600">
+                Bar Style
+              </label>
               <select
-                {...register("bar_style")}
+                {...register('bar_style')}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="thin">Thin</option>
