@@ -1,13 +1,18 @@
-import ChartForm from "./chart-form"
-import ChartList from "./chart-list"
+import ChartForm from './chart-form';
+import ChartList from './chart-list';
 
 const ChartManager = () => {
+  
+  const onAddChart = () => {
+
+  }
+  
   return (
     <div>
-       <ChartForm />
-       <ChartList /> 
+      <ChartForm onAddChart={onAddChart}/>
+      <ChartList />
     </div>
-  )
-}
+  );
+};
 
-export default ChartManager
+export default ChartManager;
