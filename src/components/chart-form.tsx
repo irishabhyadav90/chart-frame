@@ -2,19 +2,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSearchSuggestions from '@hooks/useSearchSuggestions';
-
-const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-  type: z.enum(['line', 'bar']),
-  data_source: z.string().min(1, { message: 'Data source is required' }),
-  y_axis_name: z.string().optional(),
-  frequency: z.enum(['monthly', 'quarterly', 'yearly']),
-  color: z
-    .string()
-    .regex(/^#[0-9A-Fa-f]{6}$/, { message: 'Invalid color code' }),
-  line_style: z.enum(['solid', 'dashed', 'dotted']).optional(),
-  bar_style: z.enum(['thin', 'medium', 'thick']).optional(),
-});
+import useDebounce from '@hooks/useDebounce';
+import { formSchema } from 'src/schema/zod';
 
 type ChartFormInputs = z.infer<typeof formSchema>;
 
@@ -33,12 +22,13 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
     watch,
     reset,
     handleSubmit,
+    setValue
   } = useForm<ChartFormInputs>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
       type: 'line',
-      data_source: '',
+      data_source: { name: '', id: ''},
       frequency: 'monthly',
       color: '#8884d8',
       line_style: 'solid',
@@ -47,10 +37,10 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
   });
 
   const selectedType = watch('type');
-  const dataSource = watch('data_source');
+  const dataSource = watch('data_source.name') || '';
 
-  const { suggestions, isLoading } = useSearchSuggestions(dataSource, 300);
-  console.log('suggestions', suggestions, 'isLoading', isLoading);
+  const debouncedQuery = useDebounce(dataSource, 300);
+  const { suggestions, isLoading } = useSearchSuggestions(debouncedQuery);
 
   const onSubmit: SubmitHandler<ChartFormInputs> = (data) => {
     const newChart: ChartConfig = {
@@ -103,10 +93,24 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
           Data Source
         </label>
         <input
-          {...register('data_source')}
+          {...register('data_source.name')}
           className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Search for data series (e.g., GDP)"
         />
+        {isLoading && <p className="text-sm text-gray-500 mt-1">Loading...</p>}
+        {suggestions.length > 0 && (
+          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg shadow mt-1 max-h-40 overflow-y-auto max-w-max">
+            {suggestions.map((item) => (
+              <li
+                key={item.id}
+                onClick={() => setValue("data_source", { id: item.id, name: item.title })}
+                className="p-2 hover:bg-gray-100 cursor-pointer"
+              >
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        )}
         {errors.data_source && (
           <p className="text-sm text-red-500">{errors.data_source.message}</p>
         )}

@@ -5,7 +5,7 @@ export const fetchSeries = async (query: string): Promise<Series[]> => {
   try {
     console.log('query', query);
     const response = await axiosInstance.get<FredResponse>('/series/search', {
-      params: { search_text: query },
+      params: { search_text: query, limit: 10 },
     });
     return response.data.seriess || [];
   } catch (error) {
