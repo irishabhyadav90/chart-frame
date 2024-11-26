@@ -21,7 +21,7 @@ const useObservationData = (id: string, frequency: string) => {
       }
     };
     fetchSeriesData();
-  }, [memo_value]);
+  }, [memo_value, frequency]);
 
   return { chartData, isLoading, error };
 };

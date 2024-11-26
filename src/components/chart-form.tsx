@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,9 +14,10 @@ interface ChartConfig extends ChartFormInputs {
 
 interface ChartFormProps {
   onAddChart: (chart: ChartConfig) => void;
+  editingChart: ChartConfig | null;
 }
 
-const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
+const ChartForm: React.FC<ChartFormProps> = ({ onAddChart, editingChart }) => {
   const {
     register,
     formState: { errors },
@@ -42,13 +44,18 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
   const debouncedQuery = useDebounce(dataSource, 300);
   const { suggestions, isLoading } = useSearchSuggestions(debouncedQuery);
 
+  useEffect(() => {
+    if (editingChart) {
+      reset(editingChart);
+    }
+  }, [editingChart, reset]);
+
   const onSubmit: SubmitHandler<ChartFormInputs> = (data) => {
-    const newChart: ChartConfig = {
-      id: Date.now(),
-      ...data,
-    };
-    onAddChart(newChart);
-    reset();
+    const chartToSave = editingChart
+    ? { ...data, id: editingChart.id }
+    : { ...data, id: Date.now() };
+    onAddChart(chartToSave);
+    reset(); 
   };
 
   return (
@@ -198,7 +205,7 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
         type="submit"
         className="bg-black text-white px-4 py-2 rounded mt-4"
       >
-        Add Chart
+       {editingChart ? "Update Chart" : "Add Chart"}
       </button>
     </form>
   );
