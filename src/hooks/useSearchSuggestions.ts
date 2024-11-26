@@ -6,7 +6,6 @@ const useSearchSuggestions = (query: string) => {
   const [suggestions, setSuggestions] = useState<Series[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (!query.trim()) {

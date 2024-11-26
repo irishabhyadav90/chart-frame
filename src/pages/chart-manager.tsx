@@ -15,13 +15,15 @@ const ChartManager = () => {
   const handleEditChart = (chartId: number) => {
     const chartToEdit = charts.find((chart) => chart.id === chartId);
     if (chartToEdit) {
-      console.log("Edit chart:", chartToEdit); // You can prefill the form here
+      console.log('Edit chart:', chartToEdit); // You can prefill the form here
     }
   };
-  
+
   // Delete a chart
   const handleDeleteChart = (chartId: number) => {
-    setCharts((prevCharts) => prevCharts.filter((chart) => chart.id !== chartId));
+    setCharts((prevCharts) =>
+      prevCharts.filter((chart) => chart.id !== chartId),
+    );
   };
 
   return (

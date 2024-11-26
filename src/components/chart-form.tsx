@@ -22,14 +22,14 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
     watch,
     reset,
     handleSubmit,
-    setValue
+    setValue,
   } = useForm<ChartFormInputs>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
       type: 'line',
-      data_source: { name: '', id: ''},
-      frequency: 'monthly',
+      data_source: { name: '', id: '' },
+      frequency: 'Annual',
       color: '#8884d8',
       line_style: 'solid',
       bar_style: 'medium',
@@ -103,7 +103,9 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
             {suggestions.map((item) => (
               <li
                 key={item.id}
-                onClick={() => setValue("data_source", { id: item.id, name: item.title })}
+                onClick={() =>
+                  setValue('data_source', { id: item.id, name: item.title })
+                }
                 className="p-2 hover:bg-gray-100 cursor-pointer"
               >
                 {item.title}
@@ -136,9 +138,9 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart }) => {
               {...register('frequency')}
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="yearly">Yearly</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Semiannual">Semiannual</option>
+              <option value="Annual">Annual</option>
             </select>
           </div>
         </div>
