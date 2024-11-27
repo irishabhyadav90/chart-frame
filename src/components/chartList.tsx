@@ -1,9 +1,9 @@
 import { ChartConfig } from 'src/schema/zod';
 import ChartDisplay from './chartDisplay';
 interface ChartListProps {
-  charts: ChartConfig[]; // List of charts to render
-  onEditChart: (chartId: number) => void; // Callback for editing a chart
-  onDeleteChart: (chartId: number) => void; // Callback for deleting a chart
+  charts: ChartConfig[];
+  onEditChart: (chartId: number) => void;
+  onDeleteChart: (chartId: number) => void;
 }
 
 const ChartList: React.FC<ChartListProps> = ({
@@ -19,13 +19,17 @@ const ChartList: React.FC<ChartListProps> = ({
         </p>
       ) : (
         charts.map((chart) => (
-          <div key={chart.id} className="bg-white p-4 rounded-lg shadow-lg chart-item">
+          <div
+            key={chart.id}
+            className="bg-white p-4 rounded-lg shadow-lg chart-item"
+          >
             <h3 className="text-lg font-bold mb-2">{chart.title}</h3>
 
             {/* Chart Display */}
             <ChartDisplay
               dataSourceId={chart.data_source.id}
               type={chart.type}
+              yAxisName={chart.y_axis_name || 'Y-axis'}
               options={{
                 color: chart.color,
                 lineStyle: chart.line_style,
@@ -33,8 +37,6 @@ const ChartList: React.FC<ChartListProps> = ({
               }}
               frequency={chart.frequency}
             />
-
-            {/* Actions */}
             <div className="flex justify-between mt-4">
               <button
                 onClick={() => onEditChart(chart.id)}
