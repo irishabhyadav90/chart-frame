@@ -12,6 +12,14 @@
     "prepare": "husky install",
     "test": "eslint ."
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.json": "prettier --write",
+    "*.css": "prettier --write"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "autoprefixer": "^10.4.20",
