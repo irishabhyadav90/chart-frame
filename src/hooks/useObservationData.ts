@@ -11,7 +11,7 @@ const useObservationData = (id: string, frequency: string) => {
   useEffect(() => {
     const fetchSeriesData = async () => {
       try {
-        const data = await fetchSeriesWithId(id, frequency);
+        const data = await fetchSeriesWithId(memo_value, frequency);
         updateChartData(data);
       } catch (error) {
         console.log('error', error);
