@@ -4,8 +4,8 @@ export const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
   type: z.enum(['line', 'bar']),
   data_source: z.object({
-    id: z.string().min(1, 'Data source is required'),
-    name: z.string().optional(),
+    id: z.string(),
+    name: z.string().min(1, 'Data source is required')
   }),
   y_axis_name: z.string().optional(),
   frequency: z.enum(['Quarterly', 'Semiannual', 'Annual']),
