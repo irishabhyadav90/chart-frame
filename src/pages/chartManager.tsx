@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import ChartForm from '@components/chart-form';
-import ChartList from '@components/chart-list';
+import ChartForm from '@components/chartForm';
+import ChartList from '@components/chartList';
 import { ChartConfig } from 'src/schema/zod';
 
 const ChartManager = () => {

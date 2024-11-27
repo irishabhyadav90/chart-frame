@@ -1,4 +1,4 @@
-import useSeriesData from '@hooks/useSeriesData';
+import useSeriesData from '@hooks/useObservationData';
 import { Observations } from '@types-api/fred-api';
 import React from 'react';
 import { Line, Bar } from 'react-chartjs-2';
