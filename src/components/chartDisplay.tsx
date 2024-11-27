@@ -23,7 +23,6 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
     dataSourceId,
     frequency,
   );
-  console.log('chartData', chartData);
   if (isLoading) {
     return <p>Loading chart data...</p>;
   }
