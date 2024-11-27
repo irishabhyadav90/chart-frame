@@ -1,5 +1,5 @@
 import './App.css';
-import ChartManager from '@pages/chart-manager';
+import ChartManager from '@pages/chartManager';
 
 function App() {
   return (

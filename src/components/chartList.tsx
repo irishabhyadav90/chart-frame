@@ -1,5 +1,5 @@
 import { ChartConfig } from 'src/schema/zod';
-import ChartDisplay from './chart-display';
+import ChartDisplay from './chartDisplay';
 interface ChartListProps {
   charts: ChartConfig[]; // List of charts to render
   onEditChart: (chartId: number) => void; // Callback for editing a chart
