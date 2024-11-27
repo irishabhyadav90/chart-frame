@@ -19,7 +19,7 @@ const ChartList: React.FC<ChartListProps> = ({
         </p>
       ) : (
         charts.map((chart) => (
-          <div key={chart.id} className="bg-white p-4 rounded-lg shadow-lg">
+          <div key={chart.id} className="bg-white p-4 rounded-lg shadow-lg chart-item">
             <h3 className="text-lg font-bold mb-2">{chart.title}</h3>
 
             {/* Chart Display */}

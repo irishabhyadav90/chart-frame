@@ -96,7 +96,7 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart, editingChart }) => {
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-600 mt-4">
+        <label className="block text-sm font-medium text-gray-600 mt-4 w-full relative">
           Data Source
         </label>
         <input
@@ -106,7 +106,7 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart, editingChart }) => {
         />
         {isLoading && <p className="text-sm text-gray-500 mt-1">Loading...</p>}
         {suggestions.length > 0 && (
-          <ul className="absolute z-10 bg-white border border-gray-300 rounded-lg shadow mt-1 max-h-40 overflow-y-auto max-w-max">
+          <ul className="z-20 bg-white border border-gray-300 rounded-lg shadow mt-1 max-h-40 overflow-y-auto w-full suggestion-list">
             {suggestions.map((item) => (
               <li
                 key={item.id}
@@ -121,7 +121,7 @@ const ChartForm: React.FC<ChartFormProps> = ({ onAddChart, editingChart }) => {
           </ul>
         )}
         {errors.data_source && (
-          <p className="text-sm text-red-500">{errors.data_source.message}</p>
+          <p className="text-sm text-red-500">{errors.data_source.name?.message}</p>
         )}
       </div>
       <div>
